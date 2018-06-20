@@ -1,16 +1,15 @@
 package main
 
 import (
-	"datecalculate/src/apidatecalculate"
+	"fmt"
 	"log"
 	"net/http"
 )
 
 func main() {
-	fs := http.FileServer(http.Dir("static"))
-
-	http.Handle("/web/", http.StripPrefix("/web/", fs))
-	http.HandleFunc("/duration/", apidatecalculate.ApiDateCalculate)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, you've requested: %s\n", r.URL.Path)
+	})
 
 	log.Println("Listening...")
 	http.ListenAndServe(":3000", nil)
